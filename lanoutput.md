@@ -1,5 +1,4 @@
-````md id="netrecon_readme_showcase"
-<!-- HEADER -->
+```markdown
 <h1 align="center">NET RECON</h1>
 
 <p align="center">
@@ -8,7 +7,6 @@
 
 ---
 
-<!-- BADGES -->
 <p align="center">
   <img src="https://img.shields.io/badge/Status-Active-00ff9f?style=for-the-badge">
   <img src="https://img.shields.io/badge/Mode-Parallel_Scan-blue?style=for-the-badge">
@@ -20,22 +18,26 @@
 
 ## SYSTEM OVERVIEW
 
-```txt
-Scanner     : laxent NET RECON
+```
+
+Scanner     : NET RECON
 Timestamp   : 2026-05-02 07:19:10
 Target Net  : 192.168.1.0/24
 Source Host : 192.168.1.16
 Mode        : Parallel Discovery
 Duration    : 4.1s
 Hosts Found : 4
-````
+
+```
 
 ---
 
 ## SCAN VISUALIZATION
 
 ```
+
 [████████████████████████████████████████] 100% COMPLETE
+
 ```
 
 ---
@@ -43,20 +45,22 @@ Hosts Found : 4
 ## NETWORK MAP
 
 | IP Address   | Hostname    | Type       | Status | Services          |
-| ------------ | ----------- | ---------- | ------ | ----------------- |
-| 192.168.1.16 | kalilinux   | Local Host | Active | None              |
-| 192.168.1.1  | unknown     | Gateway    | Active | DNS:53, HTTP:8080 |
-| 192.168.1.13 | blabla      | Node       | Active | HTTP:80           |
-| 192.168.1.5  | honor-pad-8 | IoT Device | Idle   | None              |
+|--------------|-------------|------------|--------|------------------|
+| 192.168.1.16 | kalilinux   | Local Host | Active | None             |
+| 192.168.1.1  | unknown     | Gateway    | Active | DNS:53, HTTP:8080|
+| 192.168.1.13 | blabla      | Node       | Active | HTTP:80          |
+| 192.168.1.5  | honor-pad-8 | IoT Device | Idle   | None             |
 
 ---
 
 ## SERVICE MAP
 
 ```
-DNS        █
-HTTP       █
-HTTP-ALT   █
+
+DNS      █
+HTTP     █
+HTTP-ALT █
+
 ```
 
 ---
@@ -66,39 +70,37 @@ HTTP-ALT   █
 <details>
 <summary>192.168.1.16 — Kali Linux (Local Host)</summary>
 
-* Role: Scan origin
-* Hostname: kalilinux
-* Open Ports: None detected
-* Status: Stable
+- Role: Scan origin  
+- Hostname: kalilinux  
+- Open Ports: None detected  
+- Status: Stable  
 
 </details>
 
 <details>
 <summary>192.168.1.1 — Gateway Device</summary>
 
-* Services:
-
-  * DNS (53)
-  * HTTP (8080)
-* Role: Network gateway / management interface
+- Services:
+  - DNS (53)
+  - HTTP (8080)  
+- Role: Network gateway / management interface  
 
 </details>
 
 <details>
 <summary>192.168.1.13 — HTTP Node</summary>
 
-* Service:
-
-  * HTTP (80 / HTTP-ALT)
-* Fingerprint: Unknown device signature
+- Service:
+  - HTTP (80)  
+- Fingerprint: Unknown device signature  
 
 </details>
 
 <details>
 <summary>192.168.1.5 — IoT Device</summary>
 
-* Device: honor-pad-8
-* Open Ports: None detected
+- Device: honor-pad-8  
+- Open Ports: None detected  
 
 </details>
 
@@ -106,11 +108,11 @@ HTTP-ALT   █
 
 ## SUMMARY
 
-* Network fully enumerated: 192.168.1.0/24
-* Active services detected: 3
-* Gateway identified: 1
-* IoT endpoint detected: 1
-* Scan efficiency: High-speed parallel mode
+- Network enumerated: 192.168.1.0/24  
+- Active services detected: 3  
+- Gateway identified: 1  
+- IoT endpoint detected: 1  
+- Scan mode: Parallel discovery  
 
 ---
 
@@ -120,5 +122,5 @@ HTTP-ALT   █
   NET RECON • Cybersecurity Reconnaissance Utility
 </p>
 ```
-* GitHub profile pinned repo version
-* veya CLI tool README + installation + usage section ekleme
+
+---
