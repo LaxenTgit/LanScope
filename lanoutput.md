@@ -1,4 +1,3 @@
-```markdown
 <h1 align="center">NET RECON</h1>
 
 <p align="center">
@@ -17,9 +16,7 @@
 ---
 
 ## SYSTEM OVERVIEW
-
-```
-
+```text
 Scanner     : NET RECON
 Timestamp   : 2026-05-02 07:19:10
 Target Net  : 192.168.1.0/24
