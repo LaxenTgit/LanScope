@@ -1,0 +1,135 @@
+version: '3.8'
+
+x-lanscope-base: &lanscope-base
+  # Build ayarları
+  build:
+    context: ..
+    dockerfile: docker/Dockerfile
+  image: lanscope:latest
+  
+  # Ağ modu: Host ağ arayüzlerine doğrudan erişim
+  # Bridge modu LAN tarama için çalışmaz!
+  network_mode: host
+  
+  # Root yetkisi: ARP/raw socket için gerekli
+  # Alternative: --cap-add=NET_ADMIN --cap-add=NET_RAW
+  privileged: true
+  
+  # Çalışma dizini
+  working_dir: /app
+  
+  # Sonuçları host'a kaydet
+  volumes:
+    - ../output:/output
+  
+  # Interactive mod (Ctrl+C ile durdurma için)
+  stdin_open: true
+  tty: true
+  
+  # Log ayarları
+  logging:
+    driver: json-file
+    options:
+      max-size: "10m"
+      max-file: "3"
+
+services:
+  # ---------------------------------------------------------------------------
+  # Servis 1: Tam Tarama (Varsayılan)
+  # ---------------------------------------------------------------------------
+  lanscope:
+    <<: *lanscope-base
+    container_name: lanscope
+    profiles: ["default", "full"]
+    
+    # Tüm subnet'i tara + JSON export
+    command: >
+      -t 192.168.1.0/24
+      --threads 50
+      --timeout 2.0
+      -o /output/scan_$(date +%Y%m%d_%H%M%S).json
+    
+    # Ortam değişkenleri
+    environment:
+      - LANG=C.UTF-8
+      - PYTHONUNBUFFERED=1
+
+  # ---------------------------------------------------------------------------
+  # Servis 2: Sadece ARP Keşfi (Hızlı, Düşük Kaynak)
+  # ---------------------------------------------------------------------------
+  lanscope-arp:
+    <<: *lanscope-base
+    container_name: lanscope-arp
+    profiles: ["arp", "quick"]
+    
+    # Port taraması yapma, sadece cihaz keşfi
+    command: >
+      -t 192.168.1.0/24
+      --no-port-scan
+      --threads 100
+      -o /output/arp_scan.json
+    
+    environment:
+      - LANG=C.UTF-8
+      - PYTHONUNBUFFERED=1
+
+  # ---------------------------------------------------------------------------
+  # Servis 3: Güvenlik Denetimi (Riskli Portlar)
+  # ---------------------------------------------------------------------------
+  lanscope-audit:
+    <<: *lanscope-base
+    container_name: lanscope-audit
+    profiles: ["audit", "security"]
+    
+    # Riskli portları tara
+    command: >
+      -t 192.168.1.0/24
+      -p 21,22,23,25,53,80,135,139,443,445,1433,3306,3389,5432,5900,6379,8080,9200
+      --threads 50
+      --timeout 3.0
+      -o /output/security_audit.json
+    
+    environment:
+      - LANG=C.UTF-8
+      - PYTHONUNBUFFERED=1
+
+  # ---------------------------------------------------------------------------
+  # Servis 4: Tek IP Detaylı Tarama (Debug)
+  # ---------------------------------------------------------------------------
+  lanscope-single:
+    <<: *lanscope-base
+    container_name: lanscope-single
+    profiles: ["single", "debug"]
+    
+    # Tek hedef, detaylı
+    command: >
+      -t 192.168.1.1
+      --threads 10
+      --timeout 5.0
+      --verbose
+      -o /output/single_target.json
+    
+    environment:
+      - LANG=C.UTF-8
+      - PYTHONUNBUFFERED=1
+
+  # ---------------------------------------------------------------------------
+  # Servis 5: CI/Test (Otomatik, çıktı yok)
+  # ---------------------------------------------------------------------------
+  lanscope-test:
+    <<: *lanscope-base
+    container_name: lanscope-test
+    profiles: ["test", "ci"]
+    
+    # Loopback test, hızlı
+    command: >
+      -t 127.0.0.1
+      --no-port-scan
+      --timeout 1.0
+    
+    # Test servisi için volume gerekmez
+    volumes: []
+    
+    environment:
+      - LANG=C.UTF-8
+      - PYTHONUNBUFFERED=1
