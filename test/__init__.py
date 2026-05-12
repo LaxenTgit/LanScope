@@ -1,0 +1,3 @@
+"""
+LanScope test suite.
+"""
