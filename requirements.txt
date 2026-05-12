@@ -1,0 +1,13 @@
+# LanScope - Network scanning dependencies
+
+# Core networking (optional but recommended for SYN stealth scans)
+# Linux/Mac: pip install scapy
+# Windows: pip install scapy[windows]  (or manual WinPcap/Npcap install)
+scapy>=2.4.5
+
+# Development & testing
+pytest>=7.0.0
+pytest-cov>=4.0.0
+
+# Optional: Enhanced terminal output
+# rich>=13.0.0  # Uncomment for advanced progress bars/tables
